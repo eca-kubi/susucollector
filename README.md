@@ -1,0 +1,2 @@
+# Susu Collector
+Nickname: SusuCollector
