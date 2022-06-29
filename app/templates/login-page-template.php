@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css" />
     <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/style.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/bootstrap-4.6.1.css">
 </head>
 <body>
 <section class="header">
@@ -30,9 +30,9 @@
                            aria-describedby="emailHelp"
                            placeholder="Enter email">
                     <div class="invalid-feedback">
-                        A valid email address should be firstname.lastname@ems.com
+                        A valid email address should be firstname.lastname@domain.com
                     </div>
-                    <small id="emailHelp" class="form-text text-muted">Enter your company email address</small>
+                    <small id="emailHelp" class="form-text text-muted">Enter your email address</small>
                 </div>
                 <div class="form-group row">
                     <label for="exampleInputPassword1">Password</label>
@@ -55,8 +55,7 @@
     </div>
 </section>
 <script src="<?php echo URL_ROOT ?>/public/js/jquery-3.3.1.slim.min.js"></script>
-<script src="<?php echo URL_ROOT ?>/public/js/popper.min.js"></script>
-<script src="<?php echo URL_ROOT ?>/public/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo URL_ROOT ?>/public/js/bootstrap-4.6.1.bundle.min.js"></script>
 <script src="<?php echo URL_ROOT ?>/public/js/custom.js"></script>
 
 </body>

@@ -18,7 +18,7 @@ class Admin extends Controller
     {
 
         $dto = new LoginDTO(...$_POST);
-        $dto->url = URLs::ADMIN_LOGIN;
+        $dto->url = URLs::ADMINS_LOGIN;
         if (Helpers::getRequestMethod() == 'POST') {
             if (!GetEntityManager()->getRepository('User')->findOneBy(['email' => $dto->email])) {
                 FlashMessageManager::setFlash($dto->pageId, FlashMessageType::DANGER, "We don't have this email address registered.");

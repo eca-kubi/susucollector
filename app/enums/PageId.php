@@ -16,4 +16,5 @@ enum PageId: string
     case EMPLOYEE_DASHBOARD = 'employee_dashboard';
     case AGENT_LOGIN = 'agent_login';
     case AGENT_DASHBOARD = 'agent_dashboard';
+    case ACCOUNT_TRANSACTIONS = 'account_transactions';
 }

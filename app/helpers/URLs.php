@@ -2,20 +2,18 @@
 
 class URLs
 {
-    const ADMIN_LOGIN = URL_ROOT . '/admin/login';
-    const EMPLOYEE_LOGIN = URL_ROOT .'/employees/login';
+    const ADMINS_LOGIN = URL_ROOT . '/admins/login';
+    const AGENTS_LOGIN = URL_ROOT .'/agents/login';
     const HOME = URL_ROOT;
-    const CONTACT = URL_ROOT . '/contact';
-    const ADMIN_CONTACT = URL_ROOT . '/admin/contact';
-    const ADMIN_DASHBOARD = URL_ROOT .'/admin/dashboard';
-    const EMPLOYEE_DASHBOARD = URL_ROOT. '/employee/dashboard';
+    const CONTACTS = URL_ROOT . '/contacts';
+    const ADMINS_DASHBOARD = URL_ROOT .'/admins/dashboard';
     const ERRORS = URL_ROOT. '/errors';
-    const ANNOUNCEMENTS = URL_ROOT. '/announcements';
-    const LEAVE_REQUESTS = URL_ROOT. '/leave_requests';
     const LOGOUT = URL_ROOT. '/logout';
-    const EDIT_EMPLOYEE_DETAILS = URL_ROOT . '/edit_employee_details';
-    const ADD_EMPLOYEE  =  URL_ROOT.'/add_employee';
-    const AGENT_LOGIN = URL_ROOT.'/agents/login';
-    const ClIENT_TRANSACTION_HISTORY = URL_ROOT. '/clients/transactions/';
-
+    const USER_PROFILE_EDIT = URL_ROOT . '/userprofiles/edit';
+    const USER_PROFILES_NEW  =  URL_ROOT.'/userprofiles/new';
+    const ClIENTS_TRANSACTIONS = URL_ROOT. '/clients/transactions/';
+    const ACCOUNTS_TRANSACTIONS = URL_ROOT .'/accounts/transactions/';
+    const ACCOUNTS_WITHDRAW = URL_ROOT .'/accounts/withdraw/';
+    const ACCOUNTS_DEPOSIT = URL_ROOT .'/accounts/deposit/';
+    const BRANCHS = URL_ROOT . '/branchs/';
 }

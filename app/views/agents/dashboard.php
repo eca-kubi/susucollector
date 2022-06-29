@@ -35,7 +35,7 @@
                 <a href="<?php echo URL_ROOT ?>" class="nav-link">Home</a>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
-                <a href="<?php echo URLs::CONTACT ?>" class="nav-link">Contact</a>
+                <a href="<?php echo URLs::CONTACTS ?>" class="nav-link">Contact</a>
             </li>
         </ul>
 
@@ -219,7 +219,7 @@
                 </div>
             </div>
 
-            <div class="form-inline">
+<!--            <div class="form-inline">
                 <div class="input-group" data-widget="sidebar-search">
                     <input class="form-control form-control-sidebar" type="search" placeholder="Search"
                            aria-label="Search">
@@ -245,7 +245,7 @@
                         </a></div>
                 </div>
             </div>
-
+-->
             <nav class="invisible mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
@@ -897,7 +897,8 @@
                 </row>
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Susu Collector - <?php echo $dto->agent->getBranch()->getName() ?> Branch</h1>
+                        <h1 class="m-0">Susu Collector -
+                            <a href="<?php echo URLs::BRANCHS . $dto->agent->getBranch()->getId()?>"> <?php echo $dto->agent->getBranch()->getName() ?> Branch</a></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -916,14 +917,14 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Accounts</h3>
+                                <h3 class="card-title">Accounts managed by <?php echo $dto->agent->getUserProfile()->getFullName(); ?> (Susu Agent)</h3>
                             </div>
                             <div class="card-body">
                                 <table id="accounts" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
                                         <th>Account Number</th>
-                                        <th>Account Holder's Name</th>
+                                        <th>Account Name</th>
                                         <th>Branch</th>
                                         <th>Balance</th>
                                         <th>
@@ -952,9 +953,9 @@
                                                         <i class="fa fa-info-circle"></i>
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        <li><a class="dropdown-item" href=""><i class=""></i> Transaction History </a></li>
-                                                        <li><a class="dropdown-item" href="#">Withdrawal</a></li>
-                                                        <li><a class="dropdown-item" href="#">Deposit</a></li>
+                                                        <li><a class="dropdown-item" href="<?php echo URLs::ACCOUNTS_TRANSACTIONS  . $account->getId()  ?>"><i class=""></i> Transactions </a></li>
+                                                        <li><a class="dropdown-item" href="<?php echo URLs::ACCOUNTS_WITHDRAW  . $account->getId()?>">Withdraw</a></li>
+                                                        <li><a class="dropdown-item" href="<?php echo URLs::ACCOUNTS_DEPOSIT  . $account->getId() ?>">Deposit</a></li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -964,7 +965,7 @@
                                     <tfoot>
                                     <tr>
                                         <th>Account Number</th>
-                                        <th>Account Holder's Name</th>
+                                        <th>Account Name</th>
                                         <th>Branch</th>
                                         <th>Balance</th>
                                         <th>Action</th>
@@ -983,8 +984,7 @@
 
     </div>
 
-
-    <aside class="control-sidebar control-sidebar-dark" style="display: none;">
+ <!--   <aside class="control-sidebar control-sidebar-dark" style="display: none;">
 
         <div class="p-3 control-sidebar-content" style=""><h5>Customize AdminLTE</h5>
             <hr class="mb-2">
@@ -1122,7 +1122,7 @@
                 <option class="bg-white">White</option>
                 <option class="bg-orange">Orange</option>
                 <a href="#">clear</a></select></div>
-    </aside>
+    </aside>-->
 
 
     <footer class="main-footer">
@@ -1133,7 +1133,7 @@
             <b>Version</b> 1.0
         </div>
     </footer>
-    <div id="sidebar-overlay"></div>
+
     <!-- Create Employee Leave Modal -->
     <div class="modal fade" id="newLeaveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
          aria-hidden="true">
@@ -1299,18 +1299,18 @@
             },
             "paging": true,
             "lengthChange": false,
-            "searching": false,
+            "searching": true,
             "ordering": true,
             "info": true,
             "autoWidth": false,
             "responsive": true,
-            "buttons": [{extend: "copy"}, {extend: "csv"}, {extend: "excel"}, {extend: "pdf"}, {extend: "print"}, {extend: "colvis"},
-                {
-                    action: newLeave,
-                    text: "New Leave Request"
-                }
+            "buttons": [/*{extend: "copy"}, {extend: "csv"}, {extend: "excel"}, {extend: "pdf"}, {extend: "print"}, {extend: "colvis"}*/
+                /*{
+                    action: createAccount,
+                    text: "Create account"
+                }*/
             ]
-        }).buttons().container().appendTo('#employees_wrapper .col-md-6:eq(0)');
+        }).buttons().container().appendTo('#accounts_wrapper .col-md-6:eq(0)');
 
         $("#editEmployeeLeaveModal").on('show.bs.modal', function (e) {
             let cols = $(e.relatedTarget).siblings('input');

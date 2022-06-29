@@ -16,7 +16,7 @@
                 <li class="<?php echo $dto->pageId->value == PageIdsDTO::CONTACT ? 'active' : ''; ?> nav-item"><a class="nav-link"
                             href="<?php echo URL_ROOT ?>/contact"><i class="fad fa-phone-alt"></i> Contact</a></li>
                 <li class="<?php echo $dto->pageId->value == PageIdsDTO::ADMIN_DASHBOARD ? 'active' : ''; ?> nav-item"><a class="nav-link"
-                            href="<?php echo URLs::ADMIN_DASHBOARD ?>"><i class="fad fa-chart-pie-alt"></i> Admin Dashboard</a></li>
+                            href="<?php echo URLs::ADMINS_DASHBOARD ?>"><i class="fad fa-chart-pie-alt"></i> Admin Dashboard</a></li>
                 <li class="<?php echo $dto->pageId->value == PageIdsDTO::LOGOUT ? 'active' : ''; ?> nav-item"><a class="nav-link"
                             href="<?php echo URL_ROOT ?>/logout"><i class="fa fa-door-open"></i> Logout</a></li>
 

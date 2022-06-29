@@ -11,7 +11,7 @@ class Agents extends Controller
     public function login()
     {
         $this->pageId = PageId::AGENT_LOGIN;
-        $this->dto = new LoginDTO(URLs::AGENT_LOGIN);
+        $this->dto = new LoginDTO(URLs::AGENTS_LOGIN);
         $userProfileService = new UserProfileService();
         if($this->request->isMethod('POST')) {
             $success = $userProfileService->authenticate($this->request->get('email'), $this->request->get('password'));

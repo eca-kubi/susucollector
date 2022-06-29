@@ -1,9 +1,7 @@
 <?php
-// Admin::dashboard
+// Agents::dashboard
 
-use Carbon\Carbon;
-use Carbon\CarbonImmutable;
-use Spatie\DataTransferObject\DataTransferObject;
+/** @var AccountTransactionsDTO $dto */
 
 ?>
 <!DOCTYPE html>
@@ -11,13 +9,12 @@ use Spatie\DataTransferObject\DataTransferObject;
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
 <head>
-    <title><?php
-        /** @var DataTransferObject $dto */
-        echo $dto->title; ?></title>
+    <title><?php echo $dto->title; ?></title>
     <link rel="icon" type="image/x-icon" href="<?php echo URL_ROOT ?>/public/img/favicon.png">
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css"/>
 
+    <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/bootstrap-4.6.1.css">
     <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/dataTables.bs.min.css">
     <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/responsive-boostrap.css">
     <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/buttons.bs.min.css">
@@ -28,7 +25,7 @@ use Spatie\DataTransferObject\DataTransferObject;
 
 <div class="wrapper">
 
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <nav class="main-header navbar navbar-expand navbar-dark navbar-light">
 
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -140,7 +137,7 @@ use Spatie\DataTransferObject\DataTransferObject;
                     </a>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
-                        <i class="fas fa-users mr-2"></i> <?php echo count($dto->employeeLeaves) ?> leave requests
+                        <i class="fas fa-users mr-2"></i> <?php echo $dto->agent->getAccounts()->count(); ?> Accounts
                         <span class="float-right text-muted text-sm">12 hours</span>
                     </a>
                     <div class="dropdown-divider"></div>
@@ -169,8 +166,6 @@ use Spatie\DataTransferObject\DataTransferObject;
                                  avatar="<?php echo $dto->currentUser->getFullName() ?>">
                             <p class="text-bold mb-1">
                                 <?php echo $dto->currentUser->getFullName() ?> </p>
-                            <p class="text-bold mb-1 text-sm">
-                                <?php echo $dto->employeeProfile->getPosition() ?> </p>
                             <p class="text-nowrap text-muted d-none">
                                 Member since ...
                             </p>
@@ -178,11 +173,11 @@ use Spatie\DataTransferObject\DataTransferObject;
                     </li>
                     <li class="row px-2">
                         <div class="pull-left col">
-                            <a href="<?php echo URL_ROOT ?>/employees/profile/<?php echo $dto->currentUser->getId() ?>"
+                            <a href="<?php echo URL_ROOT ?>/agents/profile/<?php echo $dto->currentUser->getId() ?>"
                                class="btn btn-default btn-flat">Profile</a>
                         </div>
                         <div class="pull-right">
-                            <a href="<?php echo URL_ROOT ?>/employees/logout" class="btn btn-default btn-flat">Sign
+                            <a href="<?php echo URL_ROOT ?>/agents/logout" class="btn btn-default btn-flat">Sign
                                 out</a>
                         </div>
                     </li>
@@ -207,8 +202,8 @@ use Spatie\DataTransferObject\DataTransferObject;
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
         <a href="<?php echo URL_ROOT ?>" class="brand-link">
-            <img src="<?php echo URL_ROOT ?>/public/img/logo.png" alt="" class="bg-white brand-image elevation-3">
-            <span class="brand-text font-weight-light">EMS</span>
+            <img src="<?php echo URL_ROOT ?>/public/img/favicon.png" alt="" class="bg-white brand-image elevation-3">
+            <span class="brand-text font-weight-light"><?php echo SITE_NAME ?></span>
         </a>
 
         <div class="sidebar">
@@ -216,15 +211,15 @@ use Spatie\DataTransferObject\DataTransferObject;
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
                     <img src="" class="img-circle elevation-2" alt=""
-                         avatar="<?php echo $dto->currentUser->getFirstName() . ' ' . $dto->currentUser->getLastName() ?>">
+                         avatar="<?php echo $dto->currentUser->getFullName() ?>">
                 </div>
                 <div class="info">
                     <a href="#"
-                       class="d-block text-capitalize"><?php echo $dto->currentUser->getFirstName() . ' ' . $dto->currentUser->getLastName() ?></a>
+                       class="d-block text-capitalize"><?php echo $dto->currentUser->getFullName() ?></a>
                 </div>
             </div>
 
-            <div class="form-inline">
+<!--            <div class="form-inline">
                 <div class="input-group" data-widget="sidebar-search">
                     <input class="form-control form-control-sidebar" type="search" placeholder="Search"
                            aria-label="Search">
@@ -250,7 +245,7 @@ use Spatie\DataTransferObject\DataTransferObject;
                         </a></div>
                 </div>
             </div>
-
+-->
             <nav class="invisible mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
@@ -902,12 +897,13 @@ use Spatie\DataTransferObject\DataTransferObject;
                 </row>
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Admin Dashboard</h1>
+                        <h1 class="m-0">Susu Collector -
+                            <a href="<?php echo URLs::BRANCHS . $dto->agent->getBranch()->getId()?>"> <?php echo $dto->agent->getBranch()->getName() ?> Branch</a></h1>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
                             <li class="breadcrumb-item"><a href="<?php echo URL_ROOT ?>">Home</a></li>
-                            <li class="breadcrumb-item active">Admin Dashboard</li>
+                            <li class="breadcrumb-item active">Dashboard</li>
                         </ol>
                     </div>
                 </div>
@@ -921,178 +917,57 @@ use Spatie\DataTransferObject\DataTransferObject;
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Employees</h3>
+                                <h3 class="card-title">Accounts managed by <?php echo $dto->agent->getUserProfile()->getFullName(); ?> (Susu Agent)</h3>
                             </div>
-
                             <div class="card-body">
-                                <table id="employees" class="table table-bordered table-hover">
+                                <table id="accounts" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Department</th>
-                                        <th>Position</th>
-                                        <th>Action</th>
+                                        <th>Account Number</th>
+                                        <th>Account Name</th>
+                                        <th>Branch</th>
+                                        <th>Balance</th>
+                                        <th>
+                                           Action
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <?php
-                                    /**
-                                     * @var Employee $employee
-                                     */
-                                    foreach ($dto->employees as $employee) { ?>
+
+                                    foreach ($dto->agent->getAccounts() as $account) {
+                                        $agent = $dto->agent;
+                                        ?>
                                         <tr>
-                                            <td><?php echo $employee->getUser()->getFullName() ?></td>
-                                            <td><?php echo $employee->getUser()->getEmail() ?></td>
-                                            <td><?php echo $employee->getUser()->getPhone() ?></td>
-                                            <td><?php echo $employee->getDepartment()->getName() ?></td>
-                                            <td><?php echo $employee->getPosition() ?></td>
+                                            <td> <?php echo $account->getAccountNumber(); ?> </td>
+                                            <td> <?php echo $account->getOwner()->getUserProfile()->getFullName();  ?>
+                                                <input data-field-name="accountId"
+                                                       data-field-value="<?php echo $account->getId() ?>"
+                                                       type="hidden">
+                                            </td>
+                                            <td><?php echo $account->getBranch()->getName() ?></td>
+                                            <td><?php echo $account->getBalance() ?></td>
                                             <td>
-                                                <input data-field-name="id"
-                                                       data-field-value="<?php echo $employee->getId() ?>"
-                                                       type="hidden"></input>
-                                                <input data-field-name="email"
-                                                       data-field-value="<?php echo $employee->getUser()->getEmail() ?>"
-                                                       type="hidden"></input>
-                                                <input data-field-name="firstName"
-                                                       data-field-value="<?php echo $employee->getUser()->getFirstName() ?>"
-                                                       type="hidden"></input>
-                                                <input data-field-name="born"
-                                                       data-field-value="<?php echo $employee->getBorn()->format('Y-m-d') ?>"
-                                                       type="hidden"></input>
-                                                <input data-field-name="nationality"
-                                                       data-field-value="<?php echo $employee->getNationality() ?>"
-                                                       type="hidden"></input>
-                                                <input data-field-name="lastName"
-                                                       data-field-value="<?php echo $employee->getUser()->getLastName() ?>"
-                                                       type="hidden"></input>
-                                                <input data-field-name="department"
-                                                       data-field-value="<?php echo $employee->getDepartment()->getId() ?>"
-                                                       type="hidden"></input>
-                                                <input data-field-name="position"
-                                                       data-field-value="<?php echo $employee->getPosition() ?>"
-                                                       type="hidden"></input>
-                                                <input data-field-name="telephone"
-                                                       data-field-value="<?php echo $employee->getUser()->getTelephone() ?>"
-                                                       type="hidden"></input>
-                                                <input data-field-name="gender"
-                                                       data-selected="<?php echo $employee->getGender() ?>"
-                                                       data-field-value="<?php echo $employee->getGender() ?>"
-                                                       type="hidden"></input>
-                                                <input data-field-name="userType"
-                                                       data-selected="<?php echo $employee->getUser()->getUserType() ?>"
-                                                       data-field-value="<?php echo $employee->getUser()->getUserType() ?>"
-                                                       type="hidden"
-                                                       data-checked="<?php echo $employee->getUser()->getUserType() == UserType::ADMIN ? 'checked' : '' ?>"></input>
-                                                <button data-toggle="modal"
-                                                        data-id="<?php echo $employee->getUser()->getId() ?>"
-                                                        data-target="#editEmployeeModal" class="btn btn-sm btn-primary"
-                                                        title="Edit"><i class="fa fa-edit"></i></button>
-                                                <button data-toggle="modal"
-                                                        data-id="<?php echo $employee->getUser()->getId() ?>"
-                                                        data-target="#deleteEmployeeModal" class="btn btn-sm btn-danger"
-                                                        title="Disable account"><i class="fa fa-ban"></i></button>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">
+                                                        <i class="fa fa-info-circle"></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        <li><a class="dropdown-item" href="<?php echo URLs::ACCOUNTS_TRANSACTIONS  . $account->getId()  ?>"><i class=""></i> Transactions </a></li>
+                                                        <li><a class="dropdown-item" href="<?php echo URLs::ACCOUNTS_WITHDRAW  . $account->getId()?>">Withdraw</a></li>
+                                                        <li><a class="dropdown-item" href="<?php echo URLs::ACCOUNTS_DEPOSIT  . $account->getId() ?>">Deposit</a></li>
+                                                    </ul>
+                                                </div>
                                             </td>
                                         </tr>
-                                    <?php }
-                                    ?>
+                                    <?php } ?>
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Phone</th>
-                                        <th>Department</th>
-                                        <th>Position</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">Leave Requests</h3>
-                            </div>
-
-                            <div class="card-body">
-                                <table id="employeeLeaves" class="table table-bordered table-hover">
-                                    <thead>
-                                    <tr>
-                                        <th>Employee</th>
-                                        <th>Start of Leave</th>
-                                        <th>End of Leave</th>
-                                        <th>Submission Date</th>
-                                        <th>Purpose</th>
-                                        <th>Leave Status</th>
-                                        <th>Response Date</th>
-                                        <th>Action</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <?php
-                                    /**
-                                     * @var EmployeeLeave $employeeLeave
-                                     */
-                                    foreach ($dto->employeeLeaves as $employeeLeave) { ?>
-                                        <tr>
-                                            <td><?php echo $employeeLeave->getEmployee()->getUser()->getFullName() ?></td>
-                                            <td><?php echo $employeeLeave->getStartOfLeave()?->format('Y-m-d') ?></td>
-                                            <td><?php echo $employeeLeave->getEndOfLeave()?->format('Y-m-d') ?></td>
-                                            <td><?php echo $employeeLeave->getSubmissionDate()?->format('Y-m-d') ?></td>
-                                            <td><?php echo $employeeLeave->getLeavePurpose() ?></td>
-                                            <td><?php echo $employeeLeave->getLeaveStatus() ?></td>
-                                            <td><?php echo $employeeLeave->getResponseDate()?->format('Y-m-d') ?></td>
-                                            <td>
-                                                <input data-field-name="id"
-                                                       data-field-value="<?php echo $employeeLeave->getId() ?>"
-                                                       type="hidden">
-                                                <input data-field-name="startOfLeave"
-                                                       data-field-value="<?php echo $employeeLeave->getStartOfLeave()?->format('Y-m-d') ?>"
-                                                       type="hidden">
-                                                <input data-field-name="endOfLeave"
-                                                       data-field-value="<?php echo $employeeLeave->getEndOfLeave()?->format('Y-m-d') ?>"
-                                                       type="hidden">
-                                                <input data-field-name="leavePurpose"
-                                                       data-field-value="<?php echo $employeeLeave->getLeavePurpose() ?>"
-                                                       type="hidden">
-                                                <input data-field-name="submissionDate"
-                                                       data-field-value="<?php echo $employeeLeave->getSubmissionDate()?->format('Y-m-d') ?>"
-                                                       type="hidden">
-                                                <input data-field-name="responseDate"
-                                                       data-field-value="<?php echo $employeeLeave->getResponseDate()?->format('Y-m-d') ?>"
-                                                       type="hidden">
-                                                <input data-field-name="leaveStatus"
-                                                       data-field-value="<?php echo $employeeLeave->getLeaveStatus() ?>"
-                                                       type="hidden">
-                                                <button data-toggle="modal" data-target="#editEmployeeLeaveModal"
-                                                        class="btn btn-sm btn-primary" title="Edit"><i
-                                                            class="fa fa-user-cog"></i></button>
-                                                <button data-toggle="modal" data-target="#deleteEmployeeLeaveModal"
-                                                        class="d-none btn btn-sm btn-danger" title="Delete"><i
-                                                            class="fa fa-trash"></i></button>
-                                            </td>
-                                        </tr>
-                                    <?php }
-                                    ?>
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <th>Employee</th>
-                                        <th>Start of Leave</th>
-                                        <th>End of Leave</th>
-                                        <th>Submission Date</th>
-                                        <th>Purpose</th>
-                                        <th>Leave Status</th>
-                                        <th>Response Date</th>
+                                        <th>Account Number</th>
+                                        <th>Account Name</th>
+                                        <th>Branch</th>
+                                        <th>Balance</th>
                                         <th>Action</th>
                                     </tr>
                                     </tfoot>
@@ -1109,8 +984,7 @@ use Spatie\DataTransferObject\DataTransferObject;
 
     </div>
 
-
-    <aside class="control-sidebar control-sidebar-dark" style="display: none;">
+ <!--   <aside class="control-sidebar control-sidebar-dark" style="display: none;">
 
         <div class="p-3 control-sidebar-content" style=""><h5>Customize AdminLTE</h5>
             <hr class="mb-2">
@@ -1248,343 +1122,70 @@ use Spatie\DataTransferObject\DataTransferObject;
                 <option class="bg-white">White</option>
                 <option class="bg-orange">Orange</option>
                 <a href="#">clear</a></select></div>
-    </aside>
+    </aside>-->
 
 
     <footer class="main-footer">
-        <strong>Copyright © 2014-2021 <a href="<?php echo URL_ROOT ?>"><?php echo SITE_NAME ?></a></strong>
+        <strong>Copyright © <?php echo date_format(new DateTimeImmutable(), 'Y') ?> <a
+                    href="<?php echo URL_ROOT ?>"><?php echo SITE_NAME ?></a></strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
             <b>Version</b> 1.0
         </div>
     </footer>
-    <div id="sidebar-overlay"></div>
-    <!-- Create Employee Modal -->
-    <div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+
+    <!-- Create Employee Leave Modal -->
+    <div class="modal fade" id="newLeaveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle3">Add Employee</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">New Leave Request</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form class="needs-validation" id="addEmployeeForm" method="post"
-                          action="<?php echo URL_ROOT . '/admin/createEmployee' ?>" novalidate>
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServer01">First name</label>
-                                <input type="text" class="form-control" id="validationServer01" name="firstName"
-                                       placeholder="First name" value="" required>
-                                <div class="invalid-feedback">
-                                    Please provide your last name
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServer02">Last name</label>
-                                <input type="text" class="form-control" id="validationServer02" name="lastName"
-                                       placeholder="Last name" value="" required>
-                                <div class="invalid-feedback">
-                                    Please provide your first name
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServerUsername">Email</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend3">@</span>
-                                    </div>
-                                    <input type="email" class="form-control" name="email"
-                                           id="validationServerUsername" placeholder="Email"
-                                           aria-describedby="inputGroupPrepend3" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a valid email.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServerPassword">Password</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend3"><i
-                                                    class="fa fa-lock"></i></span>
-                                    </div>
-                                    <input type="password" class="form-control" name="password"
-                                           id="validationServerPassword" placeholder="Password"
-                                           aria-describedby="inputGroupPrepend3" required>
-                                    <div class="invalid-feedback">
-                                        Please create a password.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServerDept">Department</label>
-                                <select class="form-control" id="validationServerDept" name="department" required>
-                                    <option value="" selected disabled></option>
-                                    <?php
-                                    /**
-                                     * @var Branch $d
-                                     */
-                                    foreach ($dto->departments as $d) { ?>
-                                        <option value="<?php echo $d->getId() ?>"><?php echo $d->getName() ?></option>
-                                    <?php } ?>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please select your department.
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServerPos">Position</label>
-                                <input type="text" class="form-control" name="position" id="validationServerPos"
-                                       placeholder="Position"
-                                       required>
-                                <div class="invalid-feedback">
-                                    Please provide your position.
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServerNationality">Nationality</label>
-                                <input type="text" class="form-control" name="nationality"
-                                       id="validationServerNationality"
-                                       placeholder="Nationality" required>
-                                <div class="invalid-feedback">
-                                    Please provide your nationality.
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServerDob">Date of Birth</label>
-                                <input type="date" class="form-control" name="born"
-                                       min="<?php echo CarbonImmutable::now()->subYears(90)->firstOfYear()->format('Y-m-d') ?>"
-                                       max="<?php echo CarbonImmutable::now()->subYears(17)->lastOfYear()->format('Y-m-d') ?>"
-                                       id="validationServerDob"
-                                       placeholder="Date of Birth" required>
-                                <div class="invalid-feedback">
-                                    Please provide a valid date.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label for="telephone">Phone</label>
-                                <input type="tel" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" class="form-control"
-                                       name="telephone" id="telephone"
-                                       placeholder="0547468603" required>
-                                <div class="invalid-feedback">
-                                    Please provide a valid 10-digit phone number. Eg. 0547468603
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="gender">Gender</label>
-                                <select type="text" class="form-control" name="gender" id="gender" required>
-                                    <option value="" selected disabled></option>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please provide your gender.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-12 mb-3">
-                                <label class="form-check-label font-weight-bold" for="userType">
-                                    User type
-                                </label>
-                                <select class="form-control" name="userType" id="userType">
-                                    <option value="" disabled selected></option>
-                                    <option value="admin">Admin</option>
-                                    <option value="non-admin">Non-Admin</option>
-                                </select>
-                                <div class="invalid-feedback">
-
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" form="addEmployeeForm" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Edit Employee Modal -->
-    <div class="modal fade" id="editEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle2">Edit Employee</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form class="needs-validation" method="post" id="editEmployeeForm"
-                          action="<?php echo URL_ROOT . '/admin/editemployee' ?>" novalidate>
+                    <form class="needs-validation" method="post" id="newLeaveForm"
+                          action="<?php echo URL_ROOT . '/employees/newleave' ?>" novalidate>
                         <input type="hidden" name="id" value="">
-                        <div class="form-row">
+                        <div class="form-row date-range-container">
                             <div class="col-md-6 mb-3">
-                                <label for="validationServer012">First name</label>
-                                <input type="text" class="form-control" id="validationServer012" name="firstName"
-                                       placeholder="First name" value="" required>
+                                <label for="startOfLeave1">Start of Leave</label>
+                                <input type="date" class="min-date form-control" id="startOfLeave1" name="startOfLeave"
+                                       placeholder="Start of Leave" value=""
+                                       min="<?php echo (new DateTime())->format('Y-m-d') ?>" required>
                                 <div class="invalid-feedback">
-                                    Please provide your last name
+                                    Please provide leave start date
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label for="validationServer022">Last name</label>
-                                <input type="text" class="form-control" id="validationServer022" name="lastName"
-                                       placeholder="Last name" value="" required>
+                                <label for="endOfLeave1">End of Leave</label>
+                                <input type="date" class="max-date form-control" id="endOfLeave1" name="endOfLeave"
+                                       placeholder="End of Leave" value=""
+                                       min="<?php echo (new DateTime())->format('Y-m-d') ?>" required>
                                 <div class="invalid-feedback">
-                                    Please provide your first name
+                                    Please provide leave end date
                                 </div>
                             </div>
 
                         </div>
                         <div class="form-row">
-                            <!--<div class="col-md-6 mb-3">
-                                <label for="validationServerEmail2">Email</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text" id="inputGroupPrepend32">@</span>
-                                    </div>
-                                    <input type="email" class="form-control" name="email"
-                                           id="validationServerEmail2" placeholder="Email"
-                                           aria-describedby="inputGroupPrepend3" required>
-                                    <div class="invalid-feedback">
-                                        Please provide a valid email.
-                                    </div>
-                                </div>
-                            </div>-->
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServerDept2">Department</label>
-                                <select class="form-control" id="validationServerDept2" name="department" required>
-                                    <?php
-                                    /**
-                                     * @var Branch $d
-                                     */
-                                    foreach ($dto->departments as $d) { ?>
-                                        <option value="<?php echo $d->getId() ?>"
-                                            <?php echo $dto->employeeProfile->getDepartment()->getId() == $d->getId() ?
-                                                'selected' : '' ?>><?php echo $d->getName() ?></option>
-                                    <?php } ?>
-                                </select>
-
-                                <div class="invalid-feedback">
-                                    Please provide your department.
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServerPos2">Position</label>
-                                <input type="text" name="position" class="form-control" id="validationServerPos2"
-                                       placeholder="Position"
-                                       required>
-                                <div class="invalid-feedback">
-                                    Please provide your position.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServer052">Nationality</label>
-                                <input type="text" name="nationality" class="form-control" id="validationServer052"
-                                       placeholder="Nationality" required>
-                                <div class="invalid-feedback">
-                                    Please provide your nationality.
-                                </div>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="telephone2">Phone</label>
-                                <input type="tel" pattern="[0-9]{3}[0-9]{3}[0-9]{4}" class="form-control"
-                                       name="telephone" id="telephone2"
-                                       placeholder="0547468603" required>
-                                <div class="invalid-feedback">
-                                    Please provide a valid 10-digit phone number. Eg. 0547468603
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-
-                            <div class="col-md-6 mb-3">
-                                <label for="gender2">Gender</label>
-                                <select type="text" class="form-control" name="gender" id="gender2" required>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please provide your gender.
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-3">
-                                <label for="validationServerDob2">Date of Birth</label>
-                                <input type="date" class="form-control" name="born"
-                                       min="<?php echo CarbonImmutable::now()->subYears(90)->firstOfYear()->format('Y-m-d') ?>"
-                                       max="<?php echo CarbonImmutable::now()->subYears(17)->lastOfYear()->format('Y-m-d') ?>"
-                                       id="validationServerDob2"
-                                       placeholder="Date of Birth" required>
-                                <div class="invalid-feedback">
-                                    Please provide a valid date.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-
                             <div class="col-md-12 mb-3">
-                                <label class="form-check-label font-weight-bold" for="userType2">
-                                    User type
-                                </label>
-                                <select class="form-control" name="userType" id="userType2">
-                                    <option value="" disabled selected></option>
-                                    <option value="admin">Admin</option>
-                                    <option value="non-admin">Non-Admin</option>
-                                </select>
+                                <label for="leavePurpose1">Purpose</label>
+                                <textarea class="form-control" type="text" id="leavePurpose1" name="leavePurpose"
+                                          required></textarea>
                                 <div class="invalid-feedback">
-
+                                    Please provide the purpose of leave.
                                 </div>
                             </div>
+
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" form="editEmployeeForm" class="btn btn-primary">Save</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal" id="deleteEmployeeModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Disable Account</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="deleteEmployeeForm" method="post" action="<?php echo URL_ROOT . '/admin/disableaccount' ?>">
-                        <p>Are you sure?</p>
-                        <input type="hidden" value="" name="id">
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" form="deleteEmployeeForm" class="btn btn-primary">Disable Account</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="submit" form="newLeaveForm" class="btn btn-primary">Submit</button>
                 </div>
             </div>
         </div>
@@ -1597,20 +1198,19 @@ use Spatie\DataTransferObject\DataTransferObject;
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Approve Leave</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle">Edit Leave</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <form class="needs-validation" method="post" id="editEmployeeLeaveForm"
-                          action="<?php echo URL_ROOT . '/admin/approveLeave' ?>" novalidate>
+                          action="<?php echo URL_ROOT . '/employees/editleave' ?>" novalidate>
                         <input type="hidden" name="id" value="">
-
                         <div class="form-row">
                             <div class="col-md-6 mb-3">
                                 <label for="startOfLeave">Start of Leave</label>
-                                <input disabled type="date" class="form-control" id="startOfLeave" name="startOfLeave"
+                                <input type="date" class="form-control" id="startOfLeave" name="startOfLeave"
                                        placeholder="Start of Leave" value="" required>
                                 <div class="invalid-feedback">
                                     Please provide leave start date
@@ -1618,7 +1218,7 @@ use Spatie\DataTransferObject\DataTransferObject;
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="endOfLeave">End of Leave</label>
-                                <input disabled readonly type="date" class="form-control" id="endOfLeave" name="endOfLeave"
+                                <input type="date" class="form-control" id="endOfLeave" name="endOfLeave"
                                        placeholder="End of Leave" value="" required>
                                 <div class="invalid-feedback">
                                     Please provide leave end date
@@ -1628,34 +1228,14 @@ use Spatie\DataTransferObject\DataTransferObject;
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
                                 <label for="leavePurpose">Purpose</label>
-                                <textarea disabled  readonly class="form-control" type="text" id="leavePurpose" name="leavePurpose" required></textarea>
+                                <textarea class="form-control" type="text" id="leavePurpose" name="leavePurpose"
+                                          required></textarea>
                                 <div class="invalid-feedback">
                                     Please provide the purpose of leave.
                                 </div>
                             </div>
+
                         </div>
-
-
-                        <div class="form-row">
-                            <div class="col-md-12 mb-3">
-                                <label for="leaveStatus">Approval</label>
-                                <select type="date" class="form-control" id="leaveStatus" name="leaveStatus" required>
-                                    <option value="<?php echo LeaveStatus::APPROVED ?>">Approve</option>
-                                    <option value="<?php echo LeaveStatus::REJECTED ?>">Reject</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    Please provide approval
-                                </div>
-                            </div>
-                            <!--<div class="col-md-12 mb-3">
-                                <label for="adminComment">Comment</label>
-                                <textarea type="date" class="form-control" id="adminComment" name="adminComment" placeholder="Comment"></textarea>
-                                <div class="invalid-feedback">
-                                    Please comment
-                                </div>
-                            </div>-->
-                        </div>
-
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -1666,9 +1246,31 @@ use Spatie\DataTransferObject\DataTransferObject;
         </div>
     </div>
 
+    <div class="modal" id="deleteEmployeeLeaveModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cancel Leave Request</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="cancelLeave" method="post" action="<?php echo URL_ROOT . '/employees/cancelleave' ?>">
+                        <p>Are you sure you want to cancel this leave request?</p>
+                        <input type="hidden" value="" name="id">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" form="cancelLeave" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script src="<?php echo URL_ROOT ?>/public/js/jquery.min.js"></script>
-<script src="<?php echo URL_ROOT ?>/public/js/bootstrap.bundle-2.min.js"></script>
+<script src="<?php echo URL_ROOT ?>/public/js/bootstrap-4.6.1.bundle.min.js"></script>
 <script src="<?php echo URL_ROOT ?>/public/js/jquery.dataTables.min.js"></script>
 <script src="<?php echo URL_ROOT ?>/public/js/dataTables.bs.min.js"></script>
 <script src="<?php echo URL_ROOT ?>/public/js/dataTables.responsive.min.js"></script>
@@ -1690,58 +1292,25 @@ use Spatie\DataTransferObject\DataTransferObject;
 <script>
     (function () {
         'use strict';
-        $("#employees").DataTable({
+        $("#accounts").DataTable({
             "language": {
                 "infoEmpty": "",
                 "emptyTable": "No data available to show"
             },
             "paging": true,
             "lengthChange": false,
-            "searching": false,
+            "searching": true,
             "ordering": true,
             "info": true,
             "autoWidth": false,
             "responsive": true,
-            "buttons": [{extend: "copy"}, {extend: "csv"}, {extend: "excel"}, {extend: "pdf"}, {extend: "print"}, {extend: "colvis"},
-                {
-                    action: addEmployee,
-                    text: "Add Employee"
-                }
+            "buttons": [/*{extend: "copy"}, {extend: "csv"}, {extend: "excel"}, {extend: "pdf"}, {extend: "print"}, {extend: "colvis"}*/
+                /*{
+                    action: createAccount,
+                    text: "Create account"
+                }*/
             ]
-        }).buttons().container().appendTo('#employees_wrapper .col-md-6:eq(0)');
-
-        $("#employeeLeaves").DataTable({
-            "language": {
-                "infoEmpty": "",
-                "emptyTable": "No data available to show"
-            },
-            "paging": true,
-            "lengthChange": false,
-            "searching": false,
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-            "buttons": [{extend: "copy"}, {extend: "csv"}, {extend: "excel"}, {extend: "pdf"}, {extend: "print"}, {extend: "colvis"}]
-        }).buttons().container().appendTo('#employeeLeaves_wrapper .col-md-6:eq(0)');
-
-        $("#editEmployeeModal").on('show.bs.modal', function (e) {
-            let cols = $(e.relatedTarget).siblings('input');
-            cols.each(function () {
-                let col = $(this)
-                let fieldName = col.data('fieldName')
-                let fieldValue = col.data('fieldValue')
-                let selectedOption = col.data('selected');
-                let field = $("#editEmployeeForm").find(`[name=${fieldName}]`);
-                field.val(fieldValue);
-                if (col.data('checked'))
-                    field.prop('checked', true)
-                if (selectedOption) {
-                    field.find(`option[value=${selectedOption}]`).prop('selected', true)
-                }
-                //updateFormFields(col.data('fieldName'), col.data('fieldValue'), '#editEmployeeForm')
-            })
-        })
+        }).buttons().container().appendTo('#accounts_wrapper .col-md-6:eq(0)');
 
         $("#editEmployeeLeaveModal").on('show.bs.modal', function (e) {
             let cols = $(e.relatedTarget).siblings('input');
@@ -1749,15 +1318,21 @@ use Spatie\DataTransferObject\DataTransferObject;
                 let col = $(this)
                 let fieldName = col.data('fieldName')
                 let fieldValue = col.data('fieldValue')
-                let selectedOption = col.data('selected');
+                //let selectedOption = col.data('selected');
                 let field = $("#editEmployeeLeaveForm").find(`[name=${fieldName}]`);
                 field.val(fieldValue);
+                /*if (col.data('checked'))
+                    field.prop('checked', true)
+                if (selectedOption) {
+                    field.find(`option[value=${selectedOption}]`).prop('selected', true)
+                }*/
+                //updateFormFields(fieldName, fieldValue, '#editEmployeeLeaveForm')
             })
         })
 
-        $("#deleteEmployeeModal").on('show.bs.modal', function (e) {
+        $("#deleteEmployeeLeaveModal").on('show.bs.modal', function (e) {
             let id = $(e.relatedTarget).siblings('input[data-field-name=id]').data('fieldValue');
-            $("#deleteEmployeeForm").find("input[name=id]").val(id);
+            $("#cancelLeave").find("input[name=id]").val(id);
         })
 
     })();
@@ -1767,17 +1342,25 @@ use Spatie\DataTransferObject\DataTransferObject;
         field.val(fieldValue);
         if (field.data('checked')) {
         }
+
     }
 
     function editEmployee(e, f) {
         console.log(e, f)
     }
 
-    function addEmployee() {
+    function newLeave() {
         // add a new employee record
-        $("#addEmployeeModal").modal('show');
+        $("#newLeaveModal").modal('show');
 
     }
+
+    $('.min-date').on("change", function (e) {
+        let minDateCtrl = $(this)
+        let maxDateCtrl = minDateCtrl.parents(".date-range-container").find(".max-date");
+        maxDateCtrl.prop('min', minDateCtrl.val())
+    })
+
 
 </script>
 </body>

@@ -67,6 +67,9 @@ class Agent
         $this->branch = $branch;
     }
 
+    /**
+     * @return Collection | Transaction[]
+     */
     public function getTransactions(): Collection
     {
         return $this->transactions;
@@ -85,6 +88,9 @@ class Agent
         return $this->id;
     }
 
+    /**
+     * @return Account[]
+     */
     public function getAccounts(): Collection
     {
         return $this->accounts;

@@ -12,7 +12,7 @@
     <link rel="icon" type="image/x-icon" href="<?php echo URL_ROOT ?>/public/img/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/style.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/bootstrap-4.6.1.css">
 </head>
 <body>
 <section class="header">
@@ -24,15 +24,14 @@
                 <?php echo $dto->message ?>
             </div>
             <div class="d-flex m-3 pt-3">
-                <a class="mr-3 btn btn-lg btn-info"  href="<?php echo URLs::ADMIN_LOGIN  ?>">ADMIN LOGIN</a>
-                <a class="mr-3 btn btn-lg btn-success" href="<?php echo URLs::AGENT_LOGIN ?>">AGENT LOGIN</a>
+                <a class="mr-3 btn btn-lg btn-info"  href="<?php echo URLs::ADMINS_LOGIN  ?>">ADMIN LOGIN</a>
+                <a class="mr-3 btn btn-lg btn-success" href="<?php echo URLs::AGENTS_LOGIN ?>">AGENT LOGIN</a>
             </div>
         </div>
     </div>
 
 </section>
 <script src="<?php echo URL_ROOT ?>/public/js/jquery-3.3.1.slim.min.js"></script>
-<script src="<?php echo URL_ROOT ?>/public/js/popper.min.js"></script>
-<script src="<?php echo URL_ROOT ?>/public/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo URL_ROOT ?>/public/js/bootstrap-4.6.1.bundle.min.js"></script>
 </body>
 </html>
