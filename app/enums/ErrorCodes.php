@@ -1,0 +1,14 @@
+<?php
+
+enum ErrorCodes: int
+{
+    case OK = 200;
+    case BAD_REQUEST = 400;
+    case INVALID_PERMISSION = 403;
+    case PAGE_NOT_FOUND = 404;
+    case ACTION_NOT_ALLOWED = 405;
+    case CLIENT_TIMEOUT = 408;
+    case UNEXPECTED_SERVER_ERROR = 500;
+    case INVALID_RESPONSE_FROM_UPSTREAM_SERVER = 502;
+    case UPSTREAM_SERVER_TIMEOUT = 504;
+}

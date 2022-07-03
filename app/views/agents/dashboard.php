@@ -246,7 +246,7 @@
                 </div>
             </div>
 -->
-            <nav class="invisible mt-2">
+           <!-- <nav class="invisible mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
 
@@ -882,7 +882,7 @@
                         </a>
                     </li>
                 </ul>
-            </nav>
+            </nav>-->
 
         </div>
 
@@ -953,7 +953,7 @@
                                                         <i class="fa fa-info-circle"></i>
                                                     </button>
                                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        <li><a class="dropdown-item" href="<?php echo URLs::ACCOUNTS_TRANSACTIONS  . $account->getId()  ?>"><i class=""></i> Transactions </a></li>
+                                                        <li><a class="dropdown-item" href="<?php echo URLs::TRANSACTIONS  .'/'. $account->getId()  ?>"><i class=""></i> Transactions </a></li>
                                                         <li><a class="dropdown-item" href="<?php echo URLs::ACCOUNTS_WITHDRAW  . $account->getId()?>">Withdraw</a></li>
                                                         <li><a class="dropdown-item" href="<?php echo URLs::ACCOUNTS_DEPOSIT  . $account->getId() ?>">Deposit</a></li>
                                                     </ul>

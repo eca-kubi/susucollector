@@ -17,4 +17,6 @@ enum PageId: string
     case AGENT_LOGIN = 'agent_login';
     case AGENT_DASHBOARD = 'agent_dashboard';
     case ACCOUNT_TRANSACTIONS = 'account_transactions';
+    case AGENTS_TRANSACTIONS = 'agents_transactions';
+    case TRANSACTIONS_INDEX = 'transactions_index';
 }

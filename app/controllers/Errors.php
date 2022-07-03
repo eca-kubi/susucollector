@@ -1,11 +1,11 @@
 <?php
 class Errors extends Controller
 {
-    public function index($error_code =  200)
+    public function index(int | string $error_code)
     {
         $title = '200';
         $message = 'This is the error page!';
-        $status = $error_code? $error_code : $_SERVER['REDIRECT_STATUS'];
+        $status = $error_code?: $_SERVER['REDIRECT_STATUS'];
         $codes = array(
             200 => array('200', 'This is the error page!'),
             400 => array('400', 'Bad Request'),

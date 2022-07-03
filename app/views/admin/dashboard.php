@@ -984,7 +984,7 @@ use Spatie\DataTransferObject\DataTransferObject;
                                                        data-selected="<?php echo $employee->getUser()->getUserType() ?>"
                                                        data-field-value="<?php echo $employee->getUser()->getUserType() ?>"
                                                        type="hidden"
-                                                       data-checked="<?php echo $employee->getUser()->getUserType() == UserType::ADMIN ? 'checked' : '' ?>"></input>
+                                                       data-checked="<?php echo $employee->getUser()->getUserType() == UserRole::ADMIN ? 'checked' : '' ?>"></input>
                                                 <button data-toggle="modal"
                                                         data-id="<?php echo $employee->getUser()->getId() ?>"
                                                         data-target="#editEmployeeModal" class="btn btn-sm btn-primary"

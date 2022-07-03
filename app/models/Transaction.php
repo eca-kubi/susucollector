@@ -20,7 +20,7 @@ class Transaction
     #[GeneratedValue]
     private int $id;
 
-    #[ManyToOne(targetEntity: 'Agent', inversedBy: 'transactions')]
+    #[ManyToOne(targetEntity: 'Agent')]
     #[JoinColumn(name: 'agent_id', referencedColumnName: 'id')]
     private Agent $agent;
 
@@ -41,8 +41,21 @@ class Transaction
     #[Column(name: 'amount_withdrawn')]
     private float $amountWithdrawn;
 
+    #[Column(name: 'initial_balance')]
+    private float $initialBalance;
+
+    #[Column(name: 'final_balance')]
+    private float $finalBalance;
+
     #[Column(name: 'date_created', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private DateTime $date_created;
+
+    public function __construct(Account $account, Agent $agent)
+    {
+        $this->account = $account;
+        $this->assignToAccount($this->account);
+        $this->assignToAgent($agent);
+    }
 
     public function assignToAgent(Agent $agent): void
     {
@@ -67,7 +80,11 @@ class Transaction
      */
     public function setAmountDeposited(float $amountDeposited): void
     {
+        $this->setType(TransactionType::DEPOSIT->value);
+        $this->setInitialBalance($this->account->getBalance());
         $this->amountDeposited = $amountDeposited;
+        $this->account->setBalance($amountDeposited);
+        $this->setFinalBalance($this->account->getBalance());
     }
 
     /**
@@ -75,7 +92,11 @@ class Transaction
      */
     public function setAmountWithdrawn(float $amountWithdrawn): void
     {
-        $this->amountWithdrawn = $amountWithdrawn;
+        $this->setType(TransactionType::WITHDRAWAL->value);
+        $this->setInitialBalance($this->account->getBalance());
+        $this->amountWithdrawn = -1 * $amountWithdrawn;
+        $this->account->setBalance(-1 * $amountWithdrawn);
+        $this->setFinalBalance($this->account->getBalance());
     }
 
     /**
@@ -172,6 +193,38 @@ class Transaction
     public function setType(string $type): void
     {
         $this->type = $type;
+    }
+
+    /**
+     * @param float $finalBalance
+     */
+    public function setFinalBalance(float $finalBalance): void
+    {
+        $this->finalBalance = $finalBalance;
+    }
+
+    /**
+     * @return float
+     */
+    public function getFinalBalance(): float
+    {
+        return $this->finalBalance;
+    }
+
+    /**
+     * @return float
+     */
+    public function getInitialBalance(): float
+    {
+        return $this->initialBalance;
+    }
+
+    /**
+     * @param float $initialBalance
+     */
+    public function setInitialBalance(float $initialBalance): void
+    {
+        $this->initialBalance = $initialBalance;
     }
 
     public function assignToAccount(Account $account): void

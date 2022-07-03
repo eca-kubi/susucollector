@@ -9,7 +9,7 @@
 
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css"/>
     <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/style.css">
-    <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo URL_ROOT ?>/public/css/bootstrap-4.6.1.css">
 </head>
 <body>
 <section class="header">
@@ -60,7 +60,7 @@
 </section>
 <script src="<?php echo URL_ROOT ?>/public/js/jquery-3.3.1.slim.min.js"></script>
 <script src="<?php echo URL_ROOT ?>/public/js/popper.min.js"></script>
-<script src="<?php echo URL_ROOT ?>/public/js/bootstrap.bundle.min.js"></script>
+<script src="<?php echo URL_ROOT ?>/public/js/bootstrap-4.6.1.bundle.min.js"></script>
 <script src="<?php echo URL_ROOT ?>/public/js/custom.js"></script>
 
 </body>

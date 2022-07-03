@@ -19,7 +19,7 @@
     <?php include APP_ROOT . "/templates/nav-menu-template.php"; ?>
     <div class="container-fluid center-vh-t-50" style="top: 30%">
         <div class="header-error container card jumbotron d-flex justify-content-center align-items-center"
-             style="height: 69vh; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(<?php echo URL_ROOT. '/public/img/'.$dto->title . '.jpg' ?>)">
+             style="height: 69vh; background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(<?php echo URL_ROOT. '/public/img/'.$dto->title . '.png' ?>)">
             <div class="h1 text-white">
                 <?php echo $dto->message ?>
             </div>

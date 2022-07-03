@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\Common\Collections\Collection;
 
 
 /**
@@ -27,18 +28,40 @@ class TransactionRepository extends AppEntityRepository
         return parent::findOneBy($criteria, $orderBy);
     }
 
-    function findOneById(int|string $id): Transaction|null
+    public function findOneById(int|string $id): Transaction|null
     {
         return parent::find($id);
     }
 
-    function getEntityClassName(): string
+    public function getEntityClassName(): string
     {
         return 'Transaction';
     }
 
-    static function instance(): TransactionRepository
+    /**
+     * @param DateTime $startDate
+     * @param DateTime $endDate
+     * @return Collection|null|Transaction[]
+     */
+    public function getFromStartDateToEndDate(int|string $accountId, DateTime $startDate, DateTime $endDate): array|null
     {
-       return new self();
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('t')
+            ->from($this->getEntityClassName(), 't')
+            ->where('t.account_id = :aid')
+            ->setParameter('aid', $accountId)
+            ->add('where', $qb->expr()->between(
+                't.date_created',
+                ':from',
+                ':to'
+            ))
+            ->setParameters(array('from' => $startDate, 'to' => $endDate));
+        $q = $qb->getQuery();
+        return $q->getResult();
+    }
+
+    public static function instance(): TransactionRepository
+    {
+        return new self();
     }
 }

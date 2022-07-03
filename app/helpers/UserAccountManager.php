@@ -16,7 +16,7 @@ class UserAccountManager
     public static function isUserAnAdmin(string $email): bool
     {
         $userType = UserProfileRepository::instance()->findOneBy(['email' => $email])?->getUserType();
-        return $userType == UserType::ADMIN;
+        return $userType == UserRole::ADMIN;
     }
 
     public static function hasUserLoggedIn(): bool | null

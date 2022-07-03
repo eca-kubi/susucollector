@@ -63,7 +63,10 @@ class Account
         $this->transactions[] = $transaction;
     }
 
-    public function getTransactions(): Collection
+    /**
+     * @return Collection | Transaction[]
+     */
+    public function getTransactions(): Collection | array
     {
         return $this->transactions;
     }
@@ -97,7 +100,7 @@ class Account
      */
     public function setBalance(float $balance): void
     {
-        $this->balance = $balance;
+        $this->balance = $this->getBalance() + $balance;
     }
 
     /**

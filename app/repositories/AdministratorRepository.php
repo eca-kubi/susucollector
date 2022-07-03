@@ -44,4 +44,9 @@ class AdministratorRepository extends AppEntityRepository
     {
         return new self();
     }
+
+    public function findOneByUserProfileId(int $userProfileId): ?Administrator
+    {
+        return $this->findOneByCriteria(['userProfile' => $userProfileId]);
+    }
 }

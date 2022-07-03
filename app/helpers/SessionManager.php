@@ -6,6 +6,7 @@ class SessionManager
     const SESSION_KEY_NOT_STARTED = FALSE;
     const SESSION_KEY_CURRENT_USER  = 'current_user';
     const SESSION_KEY_USER_HAS_LOGGED_IN = 'user_has_logged_in';
+    const SESSION_KEY_CURRENT_ROLE = 'current_role';
 
     /** @var SessionManager|null $this|null  */
     private static ?self $instance = null;

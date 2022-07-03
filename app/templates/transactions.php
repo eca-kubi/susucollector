@@ -1,7 +1,7 @@
 <?php
 // Agents::dashboard
 
-/** @var AccountTransactionsDTO $dto */
+/** @var TransactionsDTO $dto */
 
 ?>
 <!DOCTYPE html>
@@ -41,7 +41,7 @@
 
         <ul class="navbar-nav ml-auto">
 
-            <li class="nav-item d-none">
+            <!--<li class="nav-item d-none">
                 <a class="nav-link" data-widget="navbar-search" href="#" role="button">
                     <i class="fas fa-search"></i>
                 </a>
@@ -120,7 +120,7 @@
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
                 </div>
-            </li>
+            </li>-->
 
 
             <li class="nav-item dropdown">
@@ -137,7 +137,7 @@
                     </a>
                     <div class="dropdown-divider"></div>
                     <a href="#" class="dropdown-item">
-                        <i class="fas fa-users mr-2"></i> <?php echo $dto->agent->getAccounts()->count(); ?> Accounts
+                        <i class="fas fa-users mr-2"></i> <?php echo $dto->account?->getTransactions()->count(); ?> Transactions
                         <span class="float-right text-muted text-sm">12 hours</span>
                     </a>
                     <div class="dropdown-divider"></div>
@@ -173,11 +173,11 @@
                     </li>
                     <li class="row px-2">
                         <div class="pull-left col">
-                            <a href="<?php echo URL_ROOT ?>/agents/profile/<?php echo $dto->currentUser->getId() ?>"
+                            <a href="<?php echo URLs::PROFILE ?>"
                                class="btn btn-default btn-flat">Profile</a>
                         </div>
                         <div class="pull-right">
-                            <a href="<?php echo URL_ROOT ?>/agents/logout" class="btn btn-default btn-flat">Sign
+                            <a href="<?php echo URLs::LOGOUT ?>" class="btn btn-default btn-flat">Sign
                                 out</a>
                         </div>
                     </li>
@@ -201,13 +201,12 @@
 
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
 
-        <a href="<?php echo URL_ROOT ?>" class="brand-link">
+        <a href="<?php echo URLs::HOME ?>" class="brand-link">
             <img src="<?php echo URL_ROOT ?>/public/img/favicon.png" alt="" class="bg-white brand-image elevation-3">
             <span class="brand-text font-weight-light"><?php echo SITE_NAME ?></span>
         </a>
 
         <div class="sidebar">
-
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
                     <img src="" class="img-circle elevation-2" alt=""
@@ -246,7 +245,7 @@
                 </div>
             </div>
 -->
-            <nav class="invisible mt-2">
+            <!--<nav class="invisible mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
 
@@ -883,7 +882,7 @@
                     </li>
                 </ul>
             </nav>
-
+-->
         </div>
 
     </aside>
@@ -897,8 +896,10 @@
                 </row>
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1 class="m-0">Susu Collector -
-                            <a href="<?php echo URLs::BRANCHS . $dto->agent->getBranch()->getId()?>"> <?php echo $dto->agent->getBranch()->getName() ?> Branch</a></h1>
+                        <h3 class="m-0">Susu Collector -
+                            <a href="<?php echo URLs::BRANCHS . $dto->currentRole->getBranch()->getId(); ?>"> <?php echo $dto->currentRole->getBranch()->getName() ?> Branch</a></h3>
+                        <h5>Account Name: <?php echo $dto->account?->getOwner()->getUserProfile()->getFullName(); ?></h5>
+                        <h5>Account Number: <?php echo $dto->account?->getAccountNumber(); ?></h5>
                     </div>
                     <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-right">
@@ -917,58 +918,43 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Accounts managed by <?php echo $dto->agent->getUserProfile()->getFullName(); ?> (Susu Agent)</h3>
+                                <h3 class="card-title">Transactions</h3>
                             </div>
                             <div class="card-body">
                                 <table id="accounts" class="table table-bordered table-hover">
                                     <thead>
                                     <tr>
-                                        <th>Account Number</th>
-                                        <th>Account Name</th>
-                                        <th>Branch</th>
-                                        <th>Balance</th>
+                                        <th>Date</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Initial Balance</th>
                                         <th>
-                                           Action
+                                           Final Balance
                                         </th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <?php
 
-                                    foreach ($dto->agent->getAccounts() as $account) {
-                                        $agent = $dto->agent;
-                                        ?>
+                                    foreach ($dto->transactions as $transaction) {?>
                                         <tr>
-                                            <td> <?php echo $account->getAccountNumber(); ?> </td>
-                                            <td> <?php echo $account->getOwner()->getUserProfile()->getFullName();  ?>
-                                                <input data-field-name="accountId"
-                                                       data-field-value="<?php echo $account->getId() ?>"
-                                                       type="hidden">
-                                            </td>
-                                            <td><?php echo $account->getBranch()->getName() ?></td>
-                                            <td><?php echo $account->getBalance() ?></td>
-                                            <td>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-toggle="dropdown" aria-expanded="false">
-                                                        <i class="fa fa-info-circle"></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                        <li><a class="dropdown-item" href="<?php echo URLs::ACCOUNTS_TRANSACTIONS  . $account->getId()  ?>"><i class=""></i> Transactions </a></li>
-                                                        <li><a class="dropdown-item" href="<?php echo URLs::ACCOUNTS_WITHDRAW  . $account->getId()?>">Withdraw</a></li>
-                                                        <li><a class="dropdown-item" href="<?php echo URLs::ACCOUNTS_DEPOSIT  . $account->getId() ?>">Deposit</a></li>
-                                                    </ul>
-                                                </div>
-                                            </td>
+                                            <td><?php echo $transaction->getDateCreated()->format('d/M/Y') ?></td>
+                                            <td><?php echo $transaction->getType() == TransactionType::WITHDRAWAL? $transaction->getAmountWithdrawn() : $transaction->getAmountDeposited() ?></td>
+                                            <td><?php echo $transaction->getType(); ?></td>
+                                            <td><?php echo $transaction->getInitialBalance(); ?></td>
+                                            <td><?php echo $transaction->getFinalBalance(); ?></td>
                                         </tr>
                                     <?php } ?>
                                     </tbody>
                                     <tfoot>
                                     <tr>
-                                        <th>Account Number</th>
-                                        <th>Account Name</th>
-                                        <th>Branch</th>
-                                        <th>Balance</th>
-                                        <th>Action</th>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                        <th>Type</th>
+                                        <th>Initial Balance</th>
+                                        <th>
+                                            Final Balance
+                                        </th>
                                     </tr>
                                     </tfoot>
                                 </table>
@@ -1283,7 +1269,6 @@
 <script src="<?php echo URL_ROOT ?>/public/js/buttons.html5.min.js"></script>
 <script src="<?php echo URL_ROOT ?>/public/js/buttons.print.min.js"></script>
 <script src="<?php echo URL_ROOT ?>/public/js/buttons.colVis.min.js"></script>
-
 <script src="<?php echo URL_ROOT ?>/public/js/adminlte.min.js"></script>
 <script src="<?php echo URL_ROOT ?>/public/js/avatar.js"></script>
 <script src="<?php echo URL_ROOT ?>/public/js/demo.js"></script>

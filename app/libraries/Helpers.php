@@ -13,8 +13,22 @@ class Helpers {
         exit;
     }
 
+    #[NoReturn]
+    public static function redirectUrl(string $redirectUrl): void
+    {
+        header('location: ' . $redirectUrl);
+        exit;
+    }
+
     public static function getRequestMethod() : string
     {
         return $_SERVER['REQUEST_METHOD'];
+    }
+
+    public static function requiresLogin(string $redirectUrl=URLs::HOME): void
+    {
+        if (!UserProfileService::hasUserLoggedIn()) {
+            Helpers::redirectUrl($redirectUrl);
+        }
     }
 }

@@ -12,8 +12,10 @@ class URLs
     const USER_PROFILE_EDIT = URL_ROOT . '/userprofiles/edit';
     const USER_PROFILES_NEW  =  URL_ROOT.'/userprofiles/new';
     const ClIENTS_TRANSACTIONS = URL_ROOT. '/clients/transactions/';
-    const ACCOUNTS_TRANSACTIONS = URL_ROOT .'/accounts/transactions/';
+    const TRANSACTIONS = URL_ROOT .'/transactions/';
     const ACCOUNTS_WITHDRAW = URL_ROOT .'/accounts/withdraw/';
     const ACCOUNTS_DEPOSIT = URL_ROOT .'/accounts/deposit/';
     const BRANCHS = URL_ROOT . '/branchs/';
+    const AGENTS_DASHBOARD = URL_ROOT . '/agents/dashboard';
+    const PROFILE = URL_ROOT .'/profile';
 }

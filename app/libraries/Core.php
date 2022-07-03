@@ -41,7 +41,7 @@ class Core
         unset($url[1]);
       } else {
         // Redirect to 404 page
-        Helpers::redirect('Errors', 'index', 404);
+        Helpers::redirect('errors', 'index', 404);
       }
     }
 

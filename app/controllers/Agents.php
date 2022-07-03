@@ -14,7 +14,7 @@ class Agents extends Controller
         $this->dto = new LoginDTO(URLs::AGENTS_LOGIN);
         $userProfileService = new UserProfileService();
         if($this->request->isMethod('POST')) {
-            $success = $userProfileService->authenticate($this->request->get('email'), $this->request->get('password'));
+            $success = $userProfileService->authenticate($this->request->get('email'), $this->request->get('password'), UserRole::AGENT);
             $currentUser = UserProfileService::getCurrentUserProfile();
             if ($success){
                 if (!$currentUser->isAgent()) {
@@ -33,13 +33,27 @@ class Agents extends Controller
 
     public function dashboard()
     {
-        if (!UserProfileService::hasUserLoggedIn()) {
-            Helpers::redirect('agents', 'login');
-        }
+        Helpers::requiresLogin(URLs::AGENTS_LOGIN);
         $this->pageId = PageId::AGENT_DASHBOARD;
         $currentUserProfile = UserProfileService::getCurrentUserProfile();
         $agent = AgentRepository::instance()->findOneByUserProfileId($currentUserProfile->getId());
         $this->dto = new AgentDashboardDTO(currentUser: $currentUserProfile, agent: $agent);
         $this->view('agents/dashboard', $this->dto);
+    }
+
+    public function transactions(string| int $account_id = "")
+    {
+        Helpers::requiresLogin(URLs::AGENTS_LOGIN);
+        $currentUser = UserProfileService::getCurrentUserProfile();
+        $agent = AgentRepository::instance()->findOneByUserProfileId($currentUser->getId());
+        if (!$account_id ){
+            FlashMessageManager::setFlash(PageId::AGENT_DASHBOARD, FlashMessageType::DANGER,
+                'A valid account is required.');
+            $this->dto = new TransactionsDTO(null);
+        } else if(!AccountRepository::instance()->findOneByCriteria(['id'=> $account_id, 'agentId' => $agent->getId()])){
+            FlashMessageManager::setFlash(PageId::AGENT_DASHBOARD, FlashMessageType::DANGER,
+                'You can not manage this account!');
+            $this->dto = new TransactionsDTO(null);
+        }
     }
 }
