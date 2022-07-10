@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping\OneToOne;
+use Doctrine\ORM\Mapping\Version;
 
 #[Entity(repositoryClass: 'AccountRepository')]
 class Account
@@ -19,6 +20,12 @@ class Account
     #[Column(name: 'id', type: Types::INTEGER)]
     #[GeneratedValue]
     private int $id;
+
+    #[Version]
+    private int $version;
+
+    #[Column(type: Types::INTEGER)]
+    private int $balanceLimit = 0;
 
     //#[OneToOne(targetEntity: 'Client', cascade: ["persist"])]
     //#[JoinColumn(name: 'client_id', referencedColumnName: 'id', unique: true)]
@@ -42,16 +49,17 @@ class Account
      * @var Collection |Transaction[]
      */
     #[OneToMany(mappedBy: 'account', targetEntity: 'Transaction')]
-    private Collection $transactions;
+    private Collection|array $transactions;
 
     #[Column(name: 'date_created', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private DateTime $date_created;
 
-    public function __construct(Agent $agent, Branch $branch, Client $client)
+    public function __construct(int $balanceLimit, Agent $agent, Branch $branch, Client $client)
     {
         $this->agent = $agent;
         $this->branch = $branch;
         $this->owner = $client;
+        $this->balanceLimit = $balanceLimit;
         $agent->addToAccounts($this);
         $branch->addToAccounts($this);
         $client->addToAccounts($this);
@@ -194,6 +202,15 @@ class Account
     {
         if (property_exists($this, $property)) {
             $this->$property = $value;
+        }
+    }
+
+    private function assertBalanceLimitExceeded(float $amount): void
+    {
+        $futureBalance = $this->getBalance() + $amount;
+        $allowedMinimalBalance = ($this->balanceLimit * -1);
+        if ($futureBalance < $allowedMinimalBalance) {
+            throw new Exception("Credit Limit exceeded, transaction is not allowed!");
         }
     }
 }

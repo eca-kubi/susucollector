@@ -45,5 +45,10 @@ class ClientRepository extends AppEntityRepository
     {
         return new self();
     }
+
+    public function findOneByUserProfileId(int $userProfileId) : ?Client
+    {
+        return $this->findOneByCriteria(['userProfile' => $userProfileId]);
+    }
 }
 

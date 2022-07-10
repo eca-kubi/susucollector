@@ -20,10 +20,6 @@ class Transaction
     #[GeneratedValue]
     private int $id;
 
-    #[ManyToOne(targetEntity: 'Agent')]
-    #[JoinColumn(name: 'agent_id', referencedColumnName: 'id')]
-    private Agent $agent;
-
     #[ManyToOne(targetEntity: 'Account', inversedBy: 'transactions')]
     #[JoinColumn(name: 'account_id', referencedColumnName: 'id')]
     private Account $account;
@@ -35,11 +31,8 @@ class Transaction
     #[Column(name: 'type')]
     private string $type;
 
-    #[Column(name: 'amount_deposited')]
-    private float $amountDeposited;
-
-    #[Column(name: 'amount_withdrawn')]
-    private float $amountWithdrawn;
+    #[Column(name: 'amount')]
+    private float $amount;
 
     #[Column(name: 'initial_balance')]
     private float $initialBalance;
@@ -50,7 +43,7 @@ class Transaction
     #[Column(name: 'date_created', options: ['default' => 'CURRENT_TIMESTAMP'])]
     private DateTime $date_created;
 
-    public function __construct(Account $account, Agent $agent)
+    public function __construct(Account $account, Agent $agent, float $amount)
     {
         $this->account = $account;
         $this->assignToAccount($this->account);
@@ -70,41 +63,21 @@ class Transaction
     /**
      * @return float
      */
-    public function getAmountDeposited(): float
+    public function getAmount(): float
     {
-        return $this->amountDeposited;
+        return $this->amount;
     }
 
     /**
-     * @param float $amountDeposited
+     * @param float $amount
      */
-    public function setAmountDeposited(float $amountDeposited): void
+    public function setAmount(float $amount): void
     {
         $this->setType(TransactionType::DEPOSIT->value);
         $this->setInitialBalance($this->account->getBalance());
-        $this->amountDeposited = $amountDeposited;
-        $this->account->setBalance($amountDeposited);
+        $this->amount = $amount;
+        $this->account->setBalance($amount);
         $this->setFinalBalance($this->account->getBalance());
-    }
-
-    /**
-     * @param float $amountWithdrawn
-     */
-    public function setAmountWithdrawn(float $amountWithdrawn): void
-    {
-        $this->setType(TransactionType::WITHDRAWAL->value);
-        $this->setInitialBalance($this->account->getBalance());
-        $this->amountWithdrawn = -1 * $amountWithdrawn;
-        $this->account->setBalance(-1 * $amountWithdrawn);
-        $this->setFinalBalance($this->account->getBalance());
-    }
-
-    /**
-     * @return float
-     */
-    public function getAmountWithdrawn(): float
-    {
-        return $this->amountWithdrawn;
     }
 
     /**

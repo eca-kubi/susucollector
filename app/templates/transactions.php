@@ -897,7 +897,8 @@
                 <div class="row mb-2">
                     <div class="col-sm-6">
                         <h3 class="m-0">Susu Collector -
-                            <a href="<?php echo URLs::BRANCHS . $dto->currentRole->getBranch()->getId(); ?>"> <?php echo $dto->currentRole->getBranch()->getName() ?> Branch</a></h3>
+                            <a href="<?php echo URLs::BRANCHS . $dto->currentRole->getBranch()->getId(); ?>">
+                                <?php echo $dto->currentRole->getBranch()->getName() ?> Branch</a></h3>
                         <h5>Account Name: <?php echo $dto->account?->getOwner()->getUserProfile()->getFullName(); ?></h5>
                         <h5>Account Number: <?php echo $dto->account?->getAccountNumber(); ?></h5>
                     </div>
@@ -939,7 +940,7 @@
                                     foreach ($dto->transactions as $transaction) {?>
                                         <tr>
                                             <td><?php echo $transaction->getDateCreated()->format('d/M/Y') ?></td>
-                                            <td><?php echo $transaction->getType() == TransactionType::WITHDRAWAL? $transaction->getAmountWithdrawn() : $transaction->getAmountDeposited() ?></td>
+                                            <td><?php echo $transaction->getType() == TransactionType::WITHDRAWAL? $transaction->getAmountWithdrawn() : $transaction->getAmount() ?></td>
                                             <td><?php echo $transaction->getType(); ?></td>
                                             <td><?php echo $transaction->getInitialBalance(); ?></td>
                                             <td><?php echo $transaction->getFinalBalance(); ?></td>
@@ -1345,7 +1346,6 @@
         let maxDateCtrl = minDateCtrl.parents(".date-range-container").find(".max-date");
         maxDateCtrl.prop('min', minDateCtrl.val())
     })
-
 
 </script>
 </body>

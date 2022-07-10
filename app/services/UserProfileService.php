@@ -40,13 +40,14 @@ class UserProfileService
         return SessionManager::getInstance()->get(SessionManager::SESSION_KEY_USER_HAS_LOGGED_IN);
     }
 
-    public static function getCurrentRole() : Agent | Administrator | null
+    public static function getCurrentRole() : Agent | Administrator | Client | null
     {
         $currentRole =   unserialize(SessionManager::getInstance()->get(SessionManager::SESSION_KEY_CURRENT_ROLE));
         if(self::hasUserLoggedIn()) {
             return match ($currentRole) {
                 UserRole::AGENT => AgentRepository::instance()->findOneByUserProfileId(self::getCurrentUserProfile()->getId()),
                 UserRole::ADMIN => AdministratorRepository::instance()->findOneByUserProfileId(self::getCurrentUserProfile()->getId()),
+                UserRole::CLIENT => ClientRepository::instance()->findOneByUserProfileId(self::getCurrentUserProfile()->getId()),
             };
         }
         return null;
