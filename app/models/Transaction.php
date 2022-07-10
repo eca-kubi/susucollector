@@ -20,6 +20,10 @@ class Transaction
     #[GeneratedValue]
     private int $id;
 
+    #[ManyToOne(targetEntity: 'Agent')]
+    #[JoinColumn(name: 'agent_id', referencedColumnName: 'id')]
+    private Agent $agent;
+
     #[ManyToOne(targetEntity: 'Account', inversedBy: 'transactions')]
     #[JoinColumn(name: 'account_id', referencedColumnName: 'id')]
     private Account $account;
